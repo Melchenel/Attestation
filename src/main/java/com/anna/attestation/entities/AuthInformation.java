@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @ToString
@@ -14,12 +15,26 @@ import javax.persistence.*;
 public class AuthInformation {
 
     @Id
-    @Column(name = "Login")
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_login", referencedColumnName = "login")
+    @Column(name = "login")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String login;
 
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
