@@ -46,12 +46,15 @@ public class AuthController {
 
     //TODO:подумать как передать логин нормально
     @PostMapping("/ftaPage")
-    public String getAutenticationCode(@RequestParam(name = "code") String code){
+    public String getAutenticationCode(@RequestParam(name = "code") String code,
+                                       Model model){
         if(checkCode(code)){
+            model.addAttribute("user", "user");
             return "main";
         }
         else {
-            return "/auth";
+            model.addAttribute("user", "Вы облажались");
+            return "redirect:/ftaPage";
         }
     }
 

@@ -8,5 +8,4 @@ public interface FTAFacade {
 
     String generateRandomCode();
 
-
 }
