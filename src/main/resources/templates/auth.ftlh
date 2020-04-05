@@ -3,7 +3,7 @@
 
 <@bh.base title="Autorization">
 
-<h1>Welcome! Please, write your login and password!</h1>
+<h1>Введите логин и пароль!</h1>
 
 <@a.authorization path="/auth"/>
 </@bh.base>
