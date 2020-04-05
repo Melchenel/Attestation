@@ -1,5 +1,7 @@
 package com.anna.attestation.services.impl;
 
+import com.anna.attestation.entities.AuthInformation;
+import com.anna.attestation.repositories.AuthInformationRepository;
 import com.anna.attestation.repositories.UserRepository;
 import com.anna.attestation.services.AutorizationService;
 
@@ -15,13 +17,18 @@ public class DefaultAutorizationService implements AutorizationService {
     Logger LOG = Logger.getLogger(DefaultAutorizationService.class.getName());
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthInformationRepository authInformation;
 
     @Override
     public Boolean signIn(String login, String password) {
 
-        LOG.info(userRepository.findUserByLogin(login).toString());
-        return null;
+        //TODO: do it with lambdas
+        AuthInformation userInfo = authInformation.findAuthInformationByLogin(login);
+        if(userInfo != null && userInfo.getPassword().equals(password)){
+            return true;
+        }
+        //LOG.info(authInformation.findAuthInformationByLogin(login).getLogin());
+        return false;
     }
 
     @Override

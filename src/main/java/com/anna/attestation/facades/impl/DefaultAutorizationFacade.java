@@ -13,8 +13,7 @@ public class DefaultAutorizationFacade implements AutorizationFacade {
 
     @Override
     public Boolean signIn(String login, String password) {
-        autorizationService.signIn(login,password);
-        return true;
+        return autorizationService.signIn(login,password);
     }
 
     @Override
