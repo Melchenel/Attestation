@@ -1,5 +1,8 @@
 package com.anna.attestation.services.impl;
 
+import com.anna.attestation.entities.AuthInformation;
+import com.anna.attestation.repositories.AuthInformationRepository;
+import com.anna.attestation.repositories.UserRepository;
 import com.anna.attestation.services.FTAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,11 +18,16 @@ public class MailSender implements FTAService{
     private String username;
 
     @Autowired
-    public JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 
+    @Autowired
+    private AuthInformationRepository authInformationRepo;
+
+    @Autowired
+    private UserRepository userRepo;
     @Override
-    public Boolean sendMessage(String code, String email) {
-        writeAndSendMessage(email, templateSimpleMessage(code));
+    public Boolean sendMessage(AuthInformation authInformation) {
+        writeAndSendMessage(getUserEmail(authInformation.getLogin()), templateSimpleMessage(authInformation.getCode()));
         return true;
     }
 
@@ -44,5 +52,9 @@ public class MailSender implements FTAService{
         message.setText(
                 "Не сообщайте этот код никому: "+ code +"\n");
         return message;
+    }
+
+    private String getUserEmail(String login){
+        return userRepo.findUserByLogin(login).getEmail();
     }
 }

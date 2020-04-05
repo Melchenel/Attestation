@@ -4,8 +4,9 @@ public interface FTAFacade {
 
     Boolean sendCodeOnMail(String login);
 
-    void generateRandomCode();
+    Boolean sendCodeOnPhone(String login);
 
-    String getCode();
+    String generateRandomCode();
+
 
 }

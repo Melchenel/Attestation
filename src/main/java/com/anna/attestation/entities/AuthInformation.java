@@ -3,13 +3,12 @@ package com.anna.attestation.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@ToString
-@AllArgsConstructor
 @Entity
 @Table(name = "auth_information")
 public class AuthInformation {
@@ -21,6 +20,10 @@ public class AuthInformation {
 
     @Column(name = "password")
     private String password;
+
+
+    @Column(name = "code")
+    private String code;
 
     public String getLogin() {
         return login;
@@ -36,5 +39,13 @@ public class AuthInformation {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
