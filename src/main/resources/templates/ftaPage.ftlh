@@ -1,10 +1,10 @@
 <#import "parts/baseHtml.ftlh" as bh/>
 <#import "parts/ftaForm.ftlh" as f/>
-
+<#import "parts/baseForm.ftlh" as b/>
 <@bh.base title="FTA">
 
     <h1>Двухвакторная аутентификация</h1>
-
-    <@f.fta path="/ftaPage"/>
-
+    <@b.baseForm path="/ftaPage" name="fta">
+        <@f.fta/>
+    </@b.baseForm>
 </@bh.base>

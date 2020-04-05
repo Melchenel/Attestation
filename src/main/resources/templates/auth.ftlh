@@ -1,9 +1,11 @@
 <#import "parts/baseHtml.ftlh" as bh/>
 <#import "parts/autorizationForm.ftlh" as a/>
-
+<#import "parts/baseForm.ftlh" as b/>
 <@bh.base title="Autorization">
 
 <h1>Введите логин и пароль!</h1>
-
-<@a.authorization path="/auth"/>
+<@b.baseForm path="/auth" name="autorization">
+    <@a.authorization path="/auth"/>
+</@b.baseForm>
+<a href="">Забыли пароль?</a>
 </@bh.base>
