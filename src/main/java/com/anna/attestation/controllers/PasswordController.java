@@ -22,22 +22,34 @@ public class PasswordController {
     }
 
     @PostMapping("/login")
-    public String getLogin(@RequestParam(name = "login") String login,
+    public String resetPassword(@RequestParam(name = "login") String login,
                            Model model){
         if(login!=null){
-            changePasswordFacade.resetPassword(login,);
+            changePasswordFacade.resetPassword(login);
             model.addAttribute("message","На Вашу почту была отправлена ссылка для сброса пароля");
             //TODO:сделать страницу с сообщениями
         }
         return "redirect:/login";
     }
 
+    @GetMapping("/resetPassword/{login}")
+    public String restorePassword(@PathVariable(name = "login") String login){
+        return "restorePassword";
+    }
+
+
     @PostMapping("/resetPassword/{login}")
-    public String resetPassword(@PathVariable(name = "login") String login,
-                                @RequestParam(name = "newPassword") String newPassword,
-                                @RequestParam(name = "repeatPassword") String repeatPassword){
-        if(changePasswordFacade.changePassword(login,newPassword,repeatPassword)){
+    public String restorePassword(@PathVariable(name = "login") String login,
+                                  @RequestParam(name = "newPassword") String newPassword,
+                                  @RequestParam(name = "repeatPassword") String repeatPassword,
+                                  Model model){
+        if(changePasswordFacade.restorePassword(login,newPassword,repeatPassword)){
+            model.addAttribute("message","Вы молодец");
             return "/login";
+        }
+        else {
+            model.addAttribute("message","Вы мудак");
+            return "redirect:/resetPassword/" + login;
         }
 
     }
