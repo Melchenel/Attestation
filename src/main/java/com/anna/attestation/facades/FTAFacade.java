@@ -5,7 +5,4 @@ public interface FTAFacade {
     Boolean sendCodeOnMail(String login);
 
     Boolean sendCodeOnPhone(String login);
-
-    String generateRandomCode();
-
 }

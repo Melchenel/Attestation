@@ -6,9 +6,9 @@ import com.anna.attestation.repositories.AuthInformationRepository;
 import com.anna.attestation.repositories.UserRepository;
 import com.anna.attestation.services.impl.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 
 @Component
 public class DefaultFTAFacade implements FTAFacade {
@@ -19,24 +19,41 @@ public class DefaultFTAFacade implements FTAFacade {
     @Autowired
     private AuthInformationRepository authInformationRepo;
 
+    //TODO:refactor
     @Override
     public Boolean sendCodeOnMail(String login) {
         AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(login);
         authInformation.setCode(generateRandomCode());
         authInformationRepo.save(authInformation);
-        mailSender.sendMessage(authInformation);
+        mailSender.sendMessage(authInformation, templateSimpleMessage(authInformation.getCode()));
         return true;
     }
 
+    //TODO:refactor
     @Override
     public Boolean sendCodeOnPhone(String login) {
-        return null;
+        AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(login);
+        mailSender.sendMessage(authInformation, templateForChangePassword(login));
+        return true;
     }
 
-    @Override
-    public String generateRandomCode() {
+
+    private String generateRandomCode() {
         return String.valueOf(1000 + (int)(Math.random() * ((9999 - 1000) + 1)));
     }
 
+    private SimpleMailMessage templateSimpleMessage(String code) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(
+                "Не сообщайте этот код никому: "+ code +"\n");
+        return message;
+    }
+
+    private SimpleMailMessage templateForChangePassword(String login){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(
+                "Для сброса пароля перейдите по следующей <a href=\"localhost:8080/resetPassword/" + login + "\" >ссылке</a>\n");
+        return message;
+    }
 
 }

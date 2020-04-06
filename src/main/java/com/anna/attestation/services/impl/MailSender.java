@@ -21,17 +21,15 @@ public class MailSender implements FTAService{
     private JavaMailSender mailSender;
 
     @Autowired
-    private AuthInformationRepository authInformationRepo;
-
-    @Autowired
     private UserRepository userRepo;
+
     @Override
-    public Boolean sendMessage(AuthInformation authInformation) {
-        writeAndSendMessage(getUserEmail(authInformation.getLogin()), templateSimpleMessage(authInformation.getCode()));
+    public Boolean sendMessage(AuthInformation authInformation, SimpleMailMessage message) {
+        generateMessage(getUserEmail(authInformation.getLogin()), message);
         return true;
     }
 
-    public void writeAndSendMessage(String email, SimpleMailMessage message) {
+    public void generateMessage(String email, SimpleMailMessage message) {
         message.setFrom(username);
         message.setTo(email);
         message.setSubject("Autorization code");
@@ -40,19 +38,6 @@ public class MailSender implements FTAService{
 
     }
 
-    public SimpleMailMessage templateSimpleMessage(String code) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setText(
-                "Не сообщайте этот код никому: "+ code +"\n");
-        return message;
-    }
-
-    public SimpleMailMessage templateForChangePassword(String code){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setText(
-                "Не сообщайте этот код никому: "+ code +"\n");
-        return message;
-    }
 
     private String getUserEmail(String login){
         return userRepo.findUserByLogin(login).getEmail();

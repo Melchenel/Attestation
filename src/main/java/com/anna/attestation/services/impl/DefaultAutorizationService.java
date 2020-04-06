@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 @Service
 public class DefaultAutorizationService implements AutorizationService {
 
-    Logger LOG = Logger.getLogger(DefaultAutorizationService.class.getName());
-
     @Autowired
     private AuthInformationRepository authInformation;
 
@@ -27,7 +25,6 @@ public class DefaultAutorizationService implements AutorizationService {
         if(userInfo != null && userInfo.getPassword().equals(password)){
             return true;
         }
-        //LOG.info(authInformation.findAuthInformationByLogin(login).getLogin());
         return false;
     }
 

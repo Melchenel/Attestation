@@ -7,5 +7,5 @@
 <@b.baseForm path="/auth" name="autorization">
     <@a.authorization path="/auth"/>
 </@b.baseForm>
-<a href="">Забыли пароль?</a>
+<a href="/login">Забыли пароль?</a>
 </@bh.base>

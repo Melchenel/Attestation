@@ -24,9 +24,9 @@ public class AuthController {
     @Autowired
     private AuthInformationRepository authInformationRepo;
 
-    @GetMapping("/auth")
+    @GetMapping("/")
     public String greeting(){
-        return "auth";
+        return "redirect:/auth";
     }
 
     @PostMapping("/auth")
@@ -48,8 +48,8 @@ public class AuthController {
     @PostMapping("/ftaPage")
     public String getAutenticationCode(@RequestParam(name = "code") String code,
                                        Model model){
-        if(checkCode(code)){
-            model.addAttribute("user", "user");
+        if(checkCode(code, model)){
+           // model.addAttribute("user", "user");
             return "main";
         }
         else {
@@ -59,13 +59,14 @@ public class AuthController {
     }
 
     //TODO:refactor this
-    private Boolean checkCode(String code){
+    private Boolean checkCode(String code, Model model){
         List<AuthInformation> authInformations = authInformationRepo.findAll();
         for (AuthInformation authInfo : authInformations){
             System.out.println(authInfo.getCode());
             if(code!=null && authInfo.getCode().equals(code)){
                 authInfo.setCode("0");
                 authInformationRepo.save(authInfo);
+                model.addAttribute("user", authInfo);
                 return true;
             }
         }
