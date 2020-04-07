@@ -30,10 +30,12 @@ public class DefaultChangePasswordFacade implements ChangePasswordFacade {
         return false;
     }
 
-
-
     @Override
-    public Boolean changePassword(String login, String newPassword, String repeatPassword) {
-        return null;
+    public Boolean changePassword(AuthInformation authInformation, String oldPassword, String newPassword, String repeatPassword) {
+        if(authInformation.getPassword().equals(oldPassword) && newPassword.equals(repeatPassword)){
+            authInformationRepo.save(authInformation);
+            return true;
+        }
+        else return false;
     }
 }

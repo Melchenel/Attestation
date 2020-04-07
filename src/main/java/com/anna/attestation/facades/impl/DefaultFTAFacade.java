@@ -31,7 +31,7 @@ public class DefaultFTAFacade implements FTAFacade {
 
     //TODO:refactor
     @Override
-    public Boolean sendCodeOnPhone(String login) {
+    public Boolean sendLinkOnMail(String login) {
         AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(login);
         mailSender.sendMessage(authInformation, templateForChangePassword(login));
         return true;
@@ -48,11 +48,11 @@ public class DefaultFTAFacade implements FTAFacade {
                 "Не сообщайте этот код никому: "+ code +"\n");
         return message;
     }
-
+    //TODO:генерация рандомной ссылки
     private SimpleMailMessage templateForChangePassword(String login){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(
-                "Для сброса пароля перейдите по следующей <a href=\"localhost:8080/resetPassword/" + login + "\" >ссылке</a>\n");
+                "Для сброса пароля перейдите по следующей ссылке http://localhost:8080/restorePassword/" + login + "\n");
         return message;
     }
 

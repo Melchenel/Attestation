@@ -4,6 +4,7 @@
 <@bh.base title="Autorization">
 
 <h1>Введите логин и пароль!</h1>
+    ${message?ifExists}
 <@b.baseForm path="/auth" name="autorization">
     <@a.authorization path="/auth"/>
 </@b.baseForm>

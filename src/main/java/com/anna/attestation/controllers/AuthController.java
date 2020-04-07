@@ -24,9 +24,16 @@ public class AuthController {
     @Autowired
     private AuthInformationRepository authInformationRepo;
 
+    private AuthInformation authInformation;
+
     @GetMapping("/")
-    public String greeting(){
+    public String mainPage(){
         return "redirect:/auth";
+    }
+
+    @GetMapping("/auth")
+    public String autentifacation(){
+        return "auth";
     }
 
     @PostMapping("/auth")
@@ -36,6 +43,9 @@ public class AuthController {
         if(autorizationFacade.signIn(login,password)){
             model.addAttribute("message", "Success");
             ftaFacade.sendCodeOnMail(login);
+
+            authInformation = authInformationRepo.findAuthInformationByLogin(login);
+
             return "ftaPage";
         }
         else {
@@ -44,13 +54,12 @@ public class AuthController {
         }
     }
 
-    //TODO:подумать как передать логин нормально
     @PostMapping("/ftaPage")
     public String getAutenticationCode(@RequestParam(name = "code") String code,
                                        Model model){
-        if(checkCode(code, model)){
-           // model.addAttribute("user", "user");
-            return "main";
+        if(checkCode(code)){
+            model.addAttribute("user", authInformation.getLogin());
+            return "redirect:/main/" + authInformation.getLogin();
         }
         else {
             model.addAttribute("user", "Вы облажались");
@@ -58,19 +67,13 @@ public class AuthController {
         }
     }
 
-    //TODO:refactor this
-    private Boolean checkCode(String code, Model model){
-        List<AuthInformation> authInformations = authInformationRepo.findAll();
-        for (AuthInformation authInfo : authInformations){
-            System.out.println(authInfo.getCode());
-            if(code!=null && authInfo.getCode().equals(code)){
-                authInfo.setCode("0");
-                authInformationRepo.save(authInfo);
-                model.addAttribute("user", authInfo);
-                return true;
-            }
+    private Boolean checkCode(String code){
+
+        if(!code.isEmpty() && authInformation.getCode().equals(code)){
+            return true;
         }
-        return false;
+        else return false;
+
     }
 
 }

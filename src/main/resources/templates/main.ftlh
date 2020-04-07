@@ -5,7 +5,8 @@
 <@bh.base title="Profile">
 
     <h1>This is your profile</h1>
-    ${user?ifExists.login}
+    ${user?ifExists}
+    <br/>
 Сменить пароль
     <@b.baseForm path="/main" name="changePassword">
         <@op.oldPassword/>

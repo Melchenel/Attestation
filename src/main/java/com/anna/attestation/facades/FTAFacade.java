@@ -4,5 +4,5 @@ public interface FTAFacade {
 
     Boolean sendCodeOnMail(String login);
 
-    Boolean sendCodeOnPhone(String login);
+    Boolean sendLinkOnMail(String login);
 }
