@@ -8,10 +8,10 @@
     ${user?ifExists}
     <br/>
 Сменить пароль
-    <@b.baseForm path="/main" name="changePassword">
+    <@b.baseForm path="/changePassword" name="changePassword">
         <@op.oldPassword/>
         <@ch.changePass/>
     </@b.baseForm>
-
+    ${message?ifExists}
 </@bh.base>
 

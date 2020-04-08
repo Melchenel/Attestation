@@ -38,8 +38,9 @@ public class UserProfileController {
                                  Model model){
         if(changePasswordFacade.changePassword(authInformation, oldPassword, newPassword, repeatPassword)){
             model.addAttribute("message", "Ваш пароль успешно изменен");
+        }else {
+            model.addAttribute("message", "Вы мудень");
         }
-        model.addAttribute("message", "Вы мудень");
-        return "main";
+        return "redirect:/main/" + authInformation.getLogin();
     }
 }
