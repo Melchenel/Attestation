@@ -1,8 +1,12 @@
 package com.anna.attestation.facades;
 
+import com.anna.attestation.entities.AuthInformation;
+
 public interface FTAFacade {
 
-    Boolean sendCodeOnMail(String login);
+    Boolean sendCodeOnMail(AuthInformation authInformation);
 
-    Boolean sendLinkOnMail(String login);
+    Boolean sendLinkOnMail(AuthInformation authInformation);
+
+    Boolean sendCodeOnPhone(AuthInformation authInformation);
 }

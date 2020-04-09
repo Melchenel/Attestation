@@ -36,15 +36,18 @@ public class AuthController {
         return "auth";
     }
 
+    @GetMapping("/ftaPage")
+    public String ftaPage(){ return "ftaPage";}
+
     @PostMapping("/auth")
     public String autorization(@RequestParam(name = "login") String login,
                                @RequestParam(name = "password") String password,
                                 Model model){
         if(autorizationFacade.signIn(login,password)){
             model.addAttribute("message", "Success");
-            ftaFacade.sendCodeOnMail(login);
 
             authInformation = authInformationRepo.findAuthInformationByLogin(login);
+            ftaFacade.sendCodeOnMail(authInformation);
 
             return "ftaPage";
         }
@@ -59,12 +62,19 @@ public class AuthController {
                                        Model model){
         if(checkCode(code)){
             model.addAttribute("user", authInformation.getLogin());
+
             return "redirect:/main/" + authInformation.getLogin();
         }
         else {
             model.addAttribute("user", "Вы облажались");
             return "redirect:/ftaPage";
         }
+    }
+    //TODO:refactor
+    @PostMapping("/sendCodeOnPhone")
+    public String sendCodeOnPhone(){
+        ftaFacade.sendCodeOnPhone(authInformation);
+        return "redirect:/ftaPage";
     }
 
     private Boolean checkCode(String code){
