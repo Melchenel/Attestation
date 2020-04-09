@@ -55,7 +55,7 @@ public class DefaultFTAFacade implements FTAFacade {
         Message message = Message.creator(
                 new PhoneNumber(user.getPhoneNumber()),
                 new PhoneNumber("+18032237317"),
-                "Не сообщайте этот код никому: " + authInformation.getCode())
+                templateSimpleMessage(authInformation.getCode()).getText())
                 .create();
         return true;
     }

@@ -13,6 +13,7 @@ import java.util.List;
 
 
 @Controller
+@SessionAttributes("user")
 public class AuthController {
 
     @Autowired
