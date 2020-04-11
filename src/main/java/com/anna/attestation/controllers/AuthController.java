@@ -12,10 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @Controller
+@ControllerAdvice
 @SessionAttributes("user")
 public class AuthController {
 
@@ -33,6 +31,11 @@ public class AuthController {
 
     private AuthInformation authInformation;
 
+    @ModelAttribute("user")
+    public UserDTO setUpUserForm() {
+        return new UserDTO();
+    }
+
     @GetMapping("/")
     public String mainPage(){
         return "redirect:/auth";
@@ -46,10 +49,6 @@ public class AuthController {
     @GetMapping("/ftaPage")
     public String ftaPage(){ return "ftaPage";}
 
-    @ModelAttribute("user")
-    public UserDTO setUpUserForm() {
-        return new UserDTO();
-    }
 
     @PostMapping("/auth")
     public String autorization(@RequestParam(name = "login") String login,
@@ -68,6 +67,7 @@ public class AuthController {
             return "redirect:/auth";
         }
     }
+
 
     @PostMapping("/ftaPage")
     public String getAutenticationCode(@RequestParam(name = "code") String code,
