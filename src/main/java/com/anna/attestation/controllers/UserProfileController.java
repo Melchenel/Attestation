@@ -1,15 +1,13 @@
 package com.anna.attestation.controllers;
 
+import com.anna.attestation.dto.UserDTO;
 import com.anna.attestation.entities.AuthInformation;
 import com.anna.attestation.facades.ChangePasswordFacade;
 import com.anna.attestation.repositories.AuthInformationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserProfileController {
@@ -22,12 +20,30 @@ public class UserProfileController {
 
     private AuthInformation authInformation;
 
-    @GetMapping("/main/{login}")
-    public String getAccountPage(@PathVariable(name = "login") String login,
+    @GetMapping("/main")
+    public String getAccountPage(@ModelAttribute("user") UserDTO user){
+            if(user.isEmpty()) {
+
+                return "redirect:/auth";
+            }
+            else return "redirect:/main/" + user.getLogin();
+
+    }
+
+
+
+    @GetMapping("/main/{userId}")
+    public String getAccountPage(@PathVariable(name = "userId") String userId,
+                                 @ModelAttribute("user") UserDTO user,
                                  Model model){
-        authInformation = authInformationRepo.findAuthInformationByLogin(login);
-        model.addAttribute("user", login);
-        return "main";
+        if(user.isEmpty()){
+            return "redirect:/auth";
+
+        }else {
+            System.out.println(user.getLogin());
+            //model.addAttribute("user", user);
+            return "main";
+        }
     }
 
 
@@ -42,5 +58,12 @@ public class UserProfileController {
             model.addAttribute("message", "Вы мудень");
         }
         return "redirect:/main/" + authInformation.getLogin();
+    }
+
+    @PostMapping("/logout")
+    public String logout(@ModelAttribute("user") UserDTO user){
+        user = null;
+
+        return "redirect:/auth";
     }
 }

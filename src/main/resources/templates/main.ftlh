@@ -5,13 +5,20 @@
 <@bh.base title="Profile">
 
     <h1>This is your profile</h1>
-    ${user?ifExists}
+    ${user?ifExists.login}
+    ${user?ifExists.email}
+    <br/>
     <br/>
 Сменить пароль
     <@b.baseForm path="/changePassword" name="changePassword" button="ок">
         <@op.oldPassword/>
         <@ch.changePass/>
     </@b.baseForm>
-    ${message?ifExists}
+
+
+    <@b.baseForm path="/logout" name="logout" button="Выйти из профиля">
+    </@b.baseForm>
+
+
 </@bh.base>
 
