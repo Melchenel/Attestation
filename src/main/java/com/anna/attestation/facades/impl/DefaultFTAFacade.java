@@ -39,7 +39,8 @@ public class DefaultFTAFacade implements FTAFacade {
 
     //TODO:refactor
     @Override
-    public Boolean sendLinkOnMail(AuthInformation authInformation) {
+    public Boolean sendLinkOnMail(String login) {
+        AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(login);
         mailSender.sendMessage(authInformation, templateForChangePassword(authInformation.getLogin()));
         return true;
     }

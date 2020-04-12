@@ -21,16 +21,23 @@ public class DefaultAdministrationService implements AdministartionService {
     @Override
     public Boolean addUser(String login, String firstName, String lastName, String email, String phone) {
         if (userRepository.findUserByLogin(login) == null){
-            User user = new User(login, firstName, lastName, email,phone,1);
+            User user = new User();
+            user.setLogin(login);
+            user.setEmail(email);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPhoneNumber(phone);
+            user.setRole(1);
             userRepository.save(user);
             AuthInformation authInformation = new AuthInformation();
             authInformation.setLogin(login);
             authInformation.setPassword(generateRandomPassword());
             authInformationRepository.save(authInformation);
-
+            return true;
         }
-
-        return null;
+        else {
+            return false;
+        }
     }
 
     @Override

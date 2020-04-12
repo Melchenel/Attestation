@@ -3,14 +3,36 @@
 <#import "parts/baseForm.ftlh" as b/>
 <@bh.base title="FTA">
 
-    <h1>Двухфакторная аутентификация</h1>
-    <@b.baseForm path="/ftaPage" name="fta" button="ок">
-        <@f.fta/>
-    </@b.baseForm>
+    <div class="col align-self-center">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <h2>TWO-FACTOR AUTHENTICATION</h2>
+                <h6>Please enter the one-time code that came to your email</h6>
+            </div>
+            <div class="col"></div>
+        </div>
 
-    <@b.baseForm path="/repeatCode" name="repeat" button="отправить повторно">
-    </@b.baseForm>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col align-self-center">
+                <div class="card " style="width: 20rem;">
+                    <div class="card-body">
+                        <@b.baseForm path="/ftaPage" name="fta" button="ок">
+                            <@f.fta/>
+                        </@b.baseForm>
 
-    <@b.baseForm path="/sendCodeOnPhone" name="sendCodeOnPhone" button="отправить код на телефон">
-    </@b.baseForm>
+                        <@b.baseForm path="/repeatCode" name="repeat" button="resend code">
+                        </@b.baseForm>
+
+                        <@b.baseForm path="/sendCodeOnPhone" name="sendCodeOnPhone" button="I do not have access to email">
+                        </@b.baseForm>
+
+                        ${message?ifExists}
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
 </@bh.base>

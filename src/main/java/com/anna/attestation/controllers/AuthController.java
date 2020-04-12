@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @ControllerAdvice
-@SessionAttributes("user")
 public class AuthController {
 
     @Autowired
@@ -29,12 +28,8 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
-    private AuthInformation authInformation;
 
-    @ModelAttribute("user")
-    public UserDTO setUpUserForm() {
-        return new UserDTO();
-    }
+    private AuthInformation authInformation;
 
     @GetMapping("/")
     public String mainPage(){
@@ -71,10 +66,10 @@ public class AuthController {
 
     @PostMapping("/ftaPage")
     public String getAutenticationCode(@RequestParam(name = "code") String code,
-                                       @ModelAttribute("user") UserDTO user,
                                        Model model){
         if(checkCode(code)){
-            initUser(user);
+            initUser();
+
             authInformation.setCode("");
             authInformationRepo.save(authInformation);
             return "redirect:/main";
@@ -106,14 +101,8 @@ public class AuthController {
 
     }
 
-    private void initUser(UserDTO user){
-            User userEntity = userRepository.findUserByLogin(authInformation.getLogin());
-            user.setLogin(userEntity.getLogin());
-            user.setEmail(userEntity.getEmail());
-            user.setFirstName(userEntity.getFirstName());
-            user.setLastName(userEntity.getLastName());
-            user.setRole(userEntity.getRole());
-            user.setPhone(userEntity.getPhoneNumber());
+    private void initUser(){
+        UserDTO.setUser(userRepository.findUserByLogin(authInformation.getLogin()));
     }
 
 }

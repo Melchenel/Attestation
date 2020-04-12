@@ -6,7 +6,7 @@ public interface FTAFacade {
 
     Boolean sendCodeOnMail(AuthInformation authInformation);
 
-    Boolean sendLinkOnMail(AuthInformation authInformation);
+    Boolean sendLinkOnMail(String login);
 
     Boolean sendCodeOnPhone(AuthInformation authInformation);
 }

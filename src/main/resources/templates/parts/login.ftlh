@@ -1,4 +1,4 @@
 <#macro login >
-    <label for="login">Введите логин</label>
-    <input type="text" name="login" id="login"/> <br/>
+    <label for="login">login:</label>
+    <input type="text" name="login" id="login" class="form-control"/> <br/>
 </#macro>

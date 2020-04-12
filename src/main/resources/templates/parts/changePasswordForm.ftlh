@@ -1,6 +1,6 @@
 <#macro changePass>
-        <label for="newPassword">Введите новый пароль</label>
+        <label for="newPassword">new password:</label>
         <input type="password" name="newPassword" id="newPassword"><br/>
-        <label for="repeatPassword">Повторите пароль</label>
+        <label for="repeatPassword">repeat password:</label>
         <input type="password" name="repeatPassword" id="repeatPassword"><br/>
 </#macro>

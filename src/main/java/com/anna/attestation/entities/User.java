@@ -27,14 +27,7 @@ public class User {
     //@JoinColumn(name = "role_role", referencedColumnName = "role")
     private Integer role;
 
-    public User(String login, String firstName, String lastName, String email, String phoneNumber, Integer role) {
-        this.login = login;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-    }
+
 
     public String getLogin() {
         return login;

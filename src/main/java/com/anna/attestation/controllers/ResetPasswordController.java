@@ -35,7 +35,7 @@ public class ResetPasswordController {
                            Model model){
         if(!login.isEmpty()){
             changePasswordFacade.resetPassword(login);
-            ftaFacade.sendLinkOnMail(authInformation);
+            ftaFacade.sendLinkOnMail(login);
             model.addAttribute("message","На Вашу почту была отправлена ссылка для сброса пароля");
             //TODO:сделать страницу с сообщениями
             //TODO:Аня, сделай нормально!!

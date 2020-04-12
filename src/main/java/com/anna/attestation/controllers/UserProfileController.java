@@ -28,28 +28,25 @@ public class UserProfileController {
 
 
     @GetMapping("/main")
-    public String getAccountPage(@ModelAttribute("user") UserDTO user){
-
-
-            if(user.isEmpty()) {
+    public String getAccountPage(){
+            if(UserDTO.isEmpty()) {
 
                 return "redirect:/auth";
             }
-            else return "redirect:/main/" + user.getLogin();
+            else return "redirect:/main/" + UserDTO.getUser().getLogin();
 
     }
 
 
 
-    @GetMapping("/main/{userId}")
-    public String getAccountPage(@PathVariable(name = "userId") String userId,
-                                 @ModelAttribute("user") UserDTO user,
+    @GetMapping("/main/{login}")
+    public String getAccountPage(@PathVariable(name = "login") String login,
                                  Model model){
-        if(user.isEmpty()){
+        if(UserDTO.isEmpty()){
             return "redirect:/auth";
-
         }else {
-            if(user.getRole() == 2){
+            model.addAttribute("user", UserDTO.getUser());
+            if(UserDTO.getUser().getRole() == 2){
                 model.addAttribute("users", userRepository.findAll());
             }
             return "main";
@@ -61,9 +58,8 @@ public class UserProfileController {
     public String changePassword(@RequestParam(name = "oldPassword") String oldPassword,
                                  @RequestParam(name = "newPassword") String newPassword,
                                  @RequestParam(name = "repeatPassword") String repeatPassword,
-                                 @ModelAttribute("user") UserDTO user,
                                  Model model){
-        if(changePasswordFacade.changePassword(authInformation, oldPassword, newPassword, repeatPassword)){
+        if(changePasswordFacade.changePassword(UserDTO.getUser(), oldPassword, newPassword, repeatPassword)){
             model.addAttribute("message", "Ваш пароль успешно изменен");
         }else {
             model.addAttribute("message", "Вы мудень");
@@ -72,7 +68,8 @@ public class UserProfileController {
     }
 
     @PostMapping("/logout")
-    public String logout(@ModelAttribute("user") UserDTO user){
+    public String logout(){
+        UserDTO.setUser(null);
         return "redirect:/auth";
     }
 }
