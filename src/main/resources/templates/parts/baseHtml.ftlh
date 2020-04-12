@@ -1,4 +1,4 @@
-<#macro base title>
+<#macro base title color>
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -38,7 +38,7 @@
             }
         </style>
     </head>
-    <body class="container" style="background-color:#673AB7">
+    <body class="container" style="background-color:${color}">
     <div class="row">
         <div class="col"> </div>
     </div>

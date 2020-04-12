@@ -1,7 +1,7 @@
 <#import "parts/baseHtml.ftlh" as bh/>
 <#import "parts/autorizationForm.ftlh" as a/>
 <#import "parts/baseForm.ftlh" as b/>
-<@bh.base title="Autorization">
+<@bh.base title="Autorization" color="#673AB7">
     <div class="col align-self-center">
     <div class="row">
         <div class="col"></div>

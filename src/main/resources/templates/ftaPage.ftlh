@@ -1,7 +1,7 @@
 <#import "parts/baseHtml.ftlh" as bh/>
 <#import "parts/ftaForm.ftlh" as f/>
 <#import "parts/baseForm.ftlh" as b/>
-<@bh.base title="FTA">
+<@bh.base title="FTA" color="#673AB7">
 
     <div class="col align-self-center">
         <div class="row">

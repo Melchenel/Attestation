@@ -1,7 +1,7 @@
 <#import "parts/baseHtml.ftlh" as bh/>
 <#import "parts/changePasswordForm.ftlh" as cp/>
 <#import "parts/baseForm.ftlh" as b/>
-<@bh.base title="Restore Password">
+<@bh.base title="Restore Password" color="#673AB7">
 
     <div class="col align-self-center">
         <div class="row">
