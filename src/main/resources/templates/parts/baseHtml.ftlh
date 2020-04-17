@@ -9,19 +9,12 @@
         <style>
             h2 {
                 font-family: Montserrat;
-                font-style: normal;
-                font-weight: normal;
-                align-content: center;
-
+                padding-top: 50px;
                 color: #FFFFFF;
             }
 
             h6{
                 font-family: Montserrat;
-                font-style: normal;
-                font-weight: normal;
-                align-content: center;
-
                 color: #D1C4E9;
             }
 
@@ -40,16 +33,10 @@
     </head>
     <body class="container" style="background-color:${color}">
     <div class="row">
-        <div class="col"> </div>
-    </div>
-    <div class="row align-items-center  ">
 
             <#nested>
     </div>
-    <div class="row">
-        <div class="col"> </div>
-    </div>
-    </div>
+
     </body>
     </html>
 </#macro>

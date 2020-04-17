@@ -2,10 +2,10 @@
 <#import "parts/autorizationForm.ftlh" as a/>
 <#import "parts/baseForm.ftlh" as b/>
 <@bh.base title="Autorization" color="#673AB7">
-    <div class="col align-self-center">
-    <div class="row">
-        <div class="col"></div>
-    <div class="col">
+    <div class="col  mt-10">
+    <div class="row mt-10 pt-10">
+        <div class="col pt-10"></div>
+    <div class="col mt-10 pt-10">
         <h2>AUTHORIZATION</h2>
         <h6>Please log in to enter the site</h6>
     </div>
@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col"></div>
-    <div class="col align-self-center">
+    <div class="col">
         <div class="card " style="width: 20rem;">
             <div class="card-body">
             <@b.baseForm path="/auth" name="autorization" button="войти">

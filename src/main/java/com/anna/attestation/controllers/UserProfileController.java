@@ -2,9 +2,9 @@ package com.anna.attestation.controllers;
 
 import com.anna.attestation.dto.UserDTO;
 import com.anna.attestation.entities.AuthInformation;
-import com.anna.attestation.facades.ChangePasswordFacade;
 import com.anna.attestation.repositories.AuthInformationRepository;
 import com.anna.attestation.repositories.UserRepository;
+import com.anna.attestation.services.ChangePasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserProfileController {
 
     @Autowired
-    private ChangePasswordFacade changePasswordFacade;
+    private ChangePasswordService changePasswordService;
 
     @Autowired
     private AuthInformationRepository authInformationRepo;
@@ -59,12 +59,12 @@ public class UserProfileController {
                                  @RequestParam(name = "newPassword") String newPassword,
                                  @RequestParam(name = "repeatPassword") String repeatPassword,
                                  Model model){
-        if(changePasswordFacade.changePassword(UserDTO.getUser(), oldPassword, newPassword, repeatPassword)){
+        if(changePasswordService.changePassword(UserDTO.getUser(), oldPassword, newPassword, repeatPassword)){
             model.addAttribute("message", "Ваш пароль успешно изменен");
         }else {
             model.addAttribute("message", "Вы мудень");
         }
-        return "redirect:/main/" + authInformation.getLogin();
+        return "redirect:/main/" + UserDTO.getUser().getLogin();
     }
 
     @PostMapping("/logout")
