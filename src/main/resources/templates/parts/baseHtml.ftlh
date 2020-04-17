@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col"> </div>
     </div>
-    <div class="row align-items-center ">
+    <div class="row align-items-center  ">
 
             <#nested>
     </div>

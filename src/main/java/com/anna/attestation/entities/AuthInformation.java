@@ -15,7 +15,6 @@ public class AuthInformation {
 
     @Id
     @Column(name = "login")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String login;
 
     @Column(name = "password")

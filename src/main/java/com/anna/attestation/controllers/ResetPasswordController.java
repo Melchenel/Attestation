@@ -1,9 +1,9 @@
 package com.anna.attestation.controllers;
 
 import com.anna.attestation.entities.AuthInformation;
-import com.anna.attestation.facades.ChangePasswordFacade;
-import com.anna.attestation.facades.FTAFacade;
 import com.anna.attestation.repositories.AuthInformationRepository;
+import com.anna.attestation.services.ChangePasswordService;
+import com.anna.attestation.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class ResetPasswordController {
 
     @Autowired
-    private ChangePasswordFacade changePasswordFacade;
+    private ChangePasswordService changePasswordService;
 
     @Autowired
-    private FTAFacade ftaFacade;
+    private MailService mailService;
 
     @Autowired
     private AuthInformationRepository authInformationRepo;
@@ -34,15 +34,13 @@ public class ResetPasswordController {
     public String resetPassword(@RequestParam(name = "login") String login,
                            Model model){
         if(!login.isEmpty()){
-            changePasswordFacade.resetPassword(login);
-            ftaFacade.sendLinkOnMail(login);
+            changePasswordService.resetPassword(login);
+            mailService.sendLinkOnMail(login);
             model.addAttribute("message","На Вашу почту была отправлена ссылка для сброса пароля");
-            //TODO:сделать страницу с сообщениями
-            //TODO:Аня, сделай нормально!!
             return "auth";
         }
         else{
-            model.addAttribute("message","Вы мудак");
+            model.addAttribute("message","Что то пошло не так");
             return "redirect:/login";
         }
 
@@ -65,12 +63,12 @@ public class ResetPasswordController {
     public String restorePassword(@RequestParam(name = "newPassword") String newPassword,
                                   @RequestParam(name = "repeatPassword") String repeatPassword,
                                   Model model){
-        if(changePasswordFacade.restorePassword(authInformation.getLogin(),newPassword,repeatPassword)){
-            model.addAttribute("message","Вы молодец");
+        if(changePasswordService.restorePassword(authInformation.getLogin(),newPassword,repeatPassword)){
+            model.addAttribute("message","Пароль успешно изменен");
             return "auth";
         }
         else {
-            model.addAttribute("message","Вы мудак");
+            model.addAttribute("message","Пароли не совпадают");
 
             return "redirect:/restorePassword/" + model.getAttribute("login");
         }

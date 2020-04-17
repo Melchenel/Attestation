@@ -80,6 +80,7 @@
                             <@b.baseForm path="/delete" name="delete" button="delete">
                                 <@l.login/>
                             </@b.baseForm>
+                            ${messageAboutDelete?ifExists}
                         </div>
                     </div>
                 </div>
@@ -94,6 +95,7 @@
                             <@b.baseForm path="/add" name="add" button="add">
                                 <@u.user/>
                             </@b.baseForm>
+                            ${messageAboutAdd?ifExists}
                         </div>
                     </div>
                 </div>

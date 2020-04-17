@@ -48,7 +48,7 @@ public class DefaultAdministrationService implements AdministartionService {
         }
         else {
             userRepository.delete(user);
-            authInformationRepository.delete(authInformationRepository.findAuthInformationByLogin(login));
+            authInformationRepository.deleteByLogin(login);
             return true;
         }
     }

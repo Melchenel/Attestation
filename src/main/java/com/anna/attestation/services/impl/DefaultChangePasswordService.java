@@ -1,14 +1,14 @@
-package com.anna.attestation.facades.impl;
+package com.anna.attestation.services.impl;
 
 import com.anna.attestation.entities.AuthInformation;
 import com.anna.attestation.entities.User;
-import com.anna.attestation.facades.ChangePasswordFacade;
 import com.anna.attestation.repositories.AuthInformationRepository;
+import com.anna.attestation.services.ChangePasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class DefaultChangePasswordFacade implements ChangePasswordFacade {
+@Service
+public class DefaultChangePasswordService implements ChangePasswordService {
 
     @Autowired
     AuthInformationRepository authInformationRepo;
@@ -45,3 +45,4 @@ public class DefaultChangePasswordFacade implements ChangePasswordFacade {
         else return false;
     }
 }
+

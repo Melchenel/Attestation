@@ -2,11 +2,10 @@ package com.anna.attestation.controllers;
 
 import com.anna.attestation.dto.UserDTO;
 import com.anna.attestation.entities.AuthInformation;
-import com.anna.attestation.entities.User;
-import com.anna.attestation.facades.AutorizationFacade;
-import com.anna.attestation.facades.FTAFacade;
 import com.anna.attestation.repositories.AuthInformationRepository;
 import com.anna.attestation.repositories.UserRepository;
+import com.anna.attestation.services.AutorizationService;
+import com.anna.attestation.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @ControllerAdvice
 public class AuthController {
 
-    @Autowired
-    private AutorizationFacade autorizationFacade;
 
     @Autowired
-    private FTAFacade ftaFacade;
+    private AutorizationService autorizationService;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private AuthInformationRepository authInformationRepo;
@@ -49,11 +49,12 @@ public class AuthController {
     public String autorization(@RequestParam(name = "login") String login,
                                @RequestParam(name = "password") String password,
                                 Model model){
-        if(autorizationFacade.signIn(login,password)){
+        if(autorizationService.signIn(login,password)){
+
             model.addAttribute("message", "Success");
 
             authInformation = authInformationRepo.findAuthInformationByLogin(login);
-            ftaFacade.sendCodeOnMail(authInformation);
+            mailService.sendCodeOnMail(authInformation);
 
             return "ftaPage";
         }
@@ -75,20 +76,20 @@ public class AuthController {
             return "redirect:/main";
         }
         else {
-            model.addAttribute("user", "Вы облажались");
+            model.addAttribute("message", "Код неверный");
             return "redirect:/ftaPage";
         }
     }
     //TODO:refactor
     @PostMapping("/sendCodeOnPhone")
     public String sendCodeOnPhone(){
-        ftaFacade.sendCodeOnPhone(authInformation);
+        mailService.sendCodeOnPhone(authInformation);
         return "redirect:/ftaPage";
     }
 
     @PostMapping("/repeatCode")
     public String repeatCode(){
-        ftaFacade.sendCodeOnMail(authInformation);
+        mailService.sendCodeOnMail(authInformation);
         return "redirect:/ftaPage";
     }
 

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthInformationRepository extends JpaRepository<AuthInformation, String> {
     AuthInformation findAuthInformationByLogin(String login);
+    void deleteByLogin(String login);
 }
