@@ -15,6 +15,9 @@ public class DefaultChangePasswordService implements ChangePasswordService {
     @Autowired
     AuthInformationRepository authInformationRepo;
 
+    @Autowired
+    DefaultAutorizationService autorizationService;
+
     @Override
     public void resetPassword(String login) {
         AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(login);
@@ -28,7 +31,7 @@ public class DefaultChangePasswordService implements ChangePasswordService {
         AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(login);
 
         if (newPassword.equals(repeatPassword)) {
-            authInformation.setPassword(newPassword);
+            authInformation.setPassword(autorizationService.getMD5(newPassword));
             authInformationRepo.save(authInformation);
         }
         else {
@@ -41,8 +44,8 @@ public class DefaultChangePasswordService implements ChangePasswordService {
     public void changePassword(User user, String oldPassword, String newPassword, String repeatPassword) {
         AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(user.getLogin());
 
-        if (authInformation.getPassword().equals(oldPassword) && newPassword.equals(repeatPassword)) {
-            authInformation.setPassword(newPassword);
+        if (authInformation.getPassword().equals(autorizationService.getMD5(oldPassword)) && newPassword.equals(repeatPassword)) {
+            authInformation.setPassword(autorizationService.getMD5(newPassword));
             authInformationRepo.save(authInformation);
         }
         else {
