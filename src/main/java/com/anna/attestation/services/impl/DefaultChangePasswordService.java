@@ -2,6 +2,8 @@ package com.anna.attestation.services.impl;
 
 import com.anna.attestation.entities.AuthInformation;
 import com.anna.attestation.entities.User;
+import com.anna.attestation.exeptions.OldPasswordNotMatch;
+import com.anna.attestation.exeptions.PasswordsToNotMatchException;
 import com.anna.attestation.repositories.AuthInformationRepository;
 import com.anna.attestation.services.ChangePasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,27 +24,30 @@ public class DefaultChangePasswordService implements ChangePasswordService {
     }
 
     @Override
-    public Boolean restorePassword(String login, String newPassword, String repeatPassword) {
+    public void restorePassword(String login, String newPassword, String repeatPassword) {
         AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(login);
 
-        if(newPassword.equals(repeatPassword)){
+        if (newPassword.equals(repeatPassword)) {
             authInformation.setPassword(newPassword);
             authInformationRepo.save(authInformation);
-            return true;
         }
-        return false;
+        else {
+            throw new PasswordsToNotMatchException(login);
+        }
+
     }
 
     @Override
-    public Boolean changePassword(User user, String oldPassword, String newPassword, String repeatPassword) {
+    public void changePassword(User user, String oldPassword, String newPassword, String repeatPassword) {
         AuthInformation authInformation = authInformationRepo.findAuthInformationByLogin(user.getLogin());
 
-        if(authInformation.getPassword().equals(oldPassword) && newPassword.equals(repeatPassword)){
+        if (authInformation.getPassword().equals(oldPassword) && newPassword.equals(repeatPassword)) {
             authInformation.setPassword(newPassword);
             authInformationRepo.save(authInformation);
-            return true;
         }
-        else return false;
+        else {
+            throw new OldPasswordNotMatch();
+        }
     }
 }
 

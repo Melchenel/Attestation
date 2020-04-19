@@ -21,7 +21,6 @@ public class DefaultAutorizationService implements AutorizationService {
     @Override
     public Boolean signIn(String login, String password) {
 
-        //TODO: do it with lambdas
         return Optional.ofNullable(authInformation.findAuthInformationByLogin(login))
                 .map(auth -> auth.getPassword().equals(password))
                 .orElse(false);

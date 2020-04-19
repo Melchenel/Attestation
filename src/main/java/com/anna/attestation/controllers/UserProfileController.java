@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @SessionAttributes("user")
 public class UserProfileController {
 
-    private UserTest userTest;
-
     @Autowired
     private ChangePasswordService changePasswordService;
 
@@ -44,7 +42,7 @@ public class UserProfileController {
         if(UserDTO.isEmpty()){
             return "redirect:/auth";
         }else {
-            userTest.getLogin();
+
             model.addAttribute("user", UserDTO.getUser());
             if(UserDTO.getUser().getRole() == 2){
                 model.addAttribute("users", userRepository.findAll());
@@ -58,11 +56,10 @@ public class UserProfileController {
                                  @RequestParam(name = "newPassword") String newPassword,
                                  @RequestParam(name = "repeatPassword") String repeatPassword,
                                  Model model){
-        if(changePasswordService.changePassword(UserDTO.getUser(), oldPassword, newPassword, repeatPassword)){
-            model.addAttribute("message", "Ваш пароль успешно изменен");
-        }else {
-            model.addAttribute("message", "Вы мудень");
-        }
+
+        changePasswordService.changePassword(UserDTO.getUser(), oldPassword, newPassword, repeatPassword);
+        model.addAttribute("message", "Ваш пароль успешно изменен");
+
         return "redirect:/main/" + UserDTO.getUser().getLogin();
     }
 

@@ -63,15 +63,10 @@ public class ResetPasswordController {
     public String restorePassword(@RequestParam(name = "newPassword") String newPassword,
                                   @RequestParam(name = "repeatPassword") String repeatPassword,
                                   Model model){
-        if(changePasswordService.restorePassword(authInformation.getLogin(),newPassword,repeatPassword)){
+        changePasswordService.restorePassword(authInformation.getLogin(),newPassword,repeatPassword);
             model.addAttribute("message","Пароль успешно изменен");
             return "auth";
-        }
-        else {
-            model.addAttribute("message","Пароли не совпадают");
 
-            return "redirect:/restorePassword/" + model.getAttribute("login");
-        }
     }
 
 }

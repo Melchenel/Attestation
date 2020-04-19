@@ -16,12 +16,9 @@ public class AdminPageController {
     @PostMapping("/delete")
     public String deleteUser(@RequestParam(name = "login") String login,
                              Model model){
-        if(administartionService.deleteUser(login)){
-            model.addAttribute("messageAboutDelete", "Пользователь удален");
-        }
-        else {
-            model.addAttribute("messageAboutDelete", "Такого пользователя не существует или вы пытаетесь удалить администартора");
-        }
+
+        administartionService.deleteUser(login);
+        model.addAttribute("messageAboutDelete", "Пользователь удален");
 
         return "redirect:/main";
     }
@@ -34,12 +31,9 @@ public class AdminPageController {
                           @RequestParam(name = "phone") String phone,
                           Model model){
 
-        if(administartionService.addUser(login,firstName,lastName,email,phone)){
-            model.addAttribute("messageAboutAdd", "Пользователь добавлен");
-        }
-        else {
-            model.addAttribute("messageAboutAdd", "Пользователь с таким логином уже существует");
-        }
+        administartionService.addUser(login,firstName,lastName,email,phone);
+        model.addAttribute("messageAboutAdd", "Пользователь добавлен");
+
         return "redirect:/main";
     }
 
