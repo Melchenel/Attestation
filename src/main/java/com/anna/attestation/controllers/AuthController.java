@@ -2,6 +2,7 @@ package com.anna.attestation.controllers;
 
 import com.anna.attestation.dto.UserDTO;
 import com.anna.attestation.entities.AuthInformation;
+import com.anna.attestation.entities.User;
 import com.anna.attestation.repositories.AuthInformationRepository;
 import com.anna.attestation.repositories.UserRepository;
 import com.anna.attestation.services.AutorizationService;
@@ -12,9 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@ControllerAdvice
 public class AuthController {
-
 
     @Autowired
     private AutorizationService autorizationService;
@@ -69,8 +68,9 @@ public class AuthController {
     public String getAutenticationCode(@RequestParam(name = "code") String code,
                                        Model model){
         if(checkCode(code)){
-            initUser();
 
+            initUser();
+            initUserTest();
             authInformation.setCode("");
             authInformationRepo.save(authInformation);
             return "redirect:/main";
@@ -104,6 +104,17 @@ public class AuthController {
 
     private void initUser(){
         UserDTO.setUser(userRepository.findUserByLogin(authInformation.getLogin()));
+    }
+
+    private void initUserTest(){
+        User user = userRepository.findUserByLogin(authInformation.getLogin());
+        /*userTest.setLogin(user.getLogin());
+        userTest.setRole(user.getRole());
+        userTest.setEmail(user.getEmail());
+        userTest.setFirstName(user.getFirstName());
+        userTest.setLastName(user.getLastName());
+        userTest.setPhone(user.getPhoneNumber());*/
+
     }
 
 }

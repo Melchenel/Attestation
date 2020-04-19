@@ -8,6 +8,7 @@ import com.anna.attestation.services.AutorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 
@@ -21,15 +22,9 @@ public class DefaultAutorizationService implements AutorizationService {
     public Boolean signIn(String login, String password) {
 
         //TODO: do it with lambdas
-        AuthInformation userInfo = authInformation.findAuthInformationByLogin(login);
-        if(userInfo != null && userInfo.getPassword().equals(password)){
-            return true;
-        }
-        return false;
+        return Optional.ofNullable(authInformation.findAuthInformationByLogin(login))
+                .map(auth -> auth.getPassword().equals(password))
+                .orElse(false);
     }
 
-    @Override
-    public void signOut(String login) {
-
-    }
 }

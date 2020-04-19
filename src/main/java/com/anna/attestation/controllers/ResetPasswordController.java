@@ -40,7 +40,7 @@ public class ResetPasswordController {
             return "auth";
         }
         else{
-            model.addAttribute("message","Что то пошло не так");
+            model.addAttribute("message","Введите логин");
             return "redirect:/login";
         }
 

@@ -1,6 +1,7 @@
 package com.anna.attestation.controllers;
 
 import com.anna.attestation.dto.UserDTO;
+import com.anna.attestation.dto.UserTest;
 import com.anna.attestation.entities.AuthInformation;
 import com.anna.attestation.repositories.AuthInformationRepository;
 import com.anna.attestation.repositories.UserRepository;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @SessionAttributes("user")
 public class UserProfileController {
 
+    private UserTest userTest;
+
     @Autowired
     private ChangePasswordService changePasswordService;
 
@@ -25,8 +28,6 @@ public class UserProfileController {
 
     private AuthInformation authInformation;
 
-
-
     @GetMapping("/main")
     public String getAccountPage(){
             if(UserDTO.isEmpty()) {
@@ -37,14 +38,13 @@ public class UserProfileController {
 
     }
 
-
-
     @GetMapping("/main/{login}")
     public String getAccountPage(@PathVariable(name = "login") String login,
                                  Model model){
         if(UserDTO.isEmpty()){
             return "redirect:/auth";
         }else {
+            userTest.getLogin();
             model.addAttribute("user", UserDTO.getUser());
             if(UserDTO.getUser().getRole() == 2){
                 model.addAttribute("users", userRepository.findAll());
@@ -52,7 +52,6 @@ public class UserProfileController {
             return "main";
         }
     }
-
 
     @PostMapping("/changePassword")
     public String changePassword(@RequestParam(name = "oldPassword") String oldPassword,
